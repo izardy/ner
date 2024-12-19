@@ -58,6 +58,7 @@ for ent in doc.ents:
 ```
 labels=["GPE","PERSON","ORG","FAC","MONEY","NORP","LOC","PRODUCT","EVENT","PERCENT","WORK_OF_ART","TIME","ORDINAL","CARDINAL","QUANTITY","LAW"]
 ```
+### spaCY Training Configuration
 
 
 ## Environment Setup
