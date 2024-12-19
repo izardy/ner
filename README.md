@@ -274,6 +274,12 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
 ```
 
 ## Environment Setup
+## Pytorch Installation
+### MacOS (Apple Silicon)
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install miniforge
+```
 ## Miniconda Installation
 ### Create Environment
 #### Python 3.10
@@ -281,4 +287,5 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
   - `conda create --name myenv python=3.10`
   - `conda activate myenv`
   - `pip install -r requirements.txt`
+  - `pip install torch torchvision torchaudio`
 
