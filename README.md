@@ -17,7 +17,20 @@ for ent in doc.ents:
 ```
 ### Example Usage (Custom Model):
 ```
+import spacy
 
+# Load a new spacy model for first time 
+# nlp = spacy.blank("en")
+
+# Load the custom model if available 
+nlp = spacy.load("/path/to/your/spacy/model")
+
+# Process a text
+doc = nlp("Apple is looking at buying U.K. startup for $1 billion")
+
+# Print the entities
+for ent in doc.ents:
+    print(ent.text, ent.label_)
 ```
 ## Environment Setup
 ## Miniconda Installation
