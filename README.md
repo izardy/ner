@@ -236,6 +236,17 @@ buffer = 256
 [initialize]
 vectors = ${paths.vectors}
 ```
+- As per spaCY documentation
+> After you’ve saved the starter config to a file base_config.cfg, you can use the init fill-config command to fill in the remaining defaults. Training configs should always be complete and without hidden defaults, to keep your experiments reproducible.
+```
+python -m spacy init fill-config base_config.cfg config.cfg
+```
+### spaCY Training init
+- Using the both labelled data (train folder) and cofig.cfg file, ner model training initiated as code below
+```
+python -m spacy train config.cfg --output ./output --paths.train ./train.spacy --paths.dev ./dev.spacy
+```
+
 ## Environment Setup
 ## Miniconda Installation
 ### Create Environment
