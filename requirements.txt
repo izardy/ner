@@ -2,3 +2,6 @@ spacy
 spacy_annotator
 pandas
 numpy
+ipykernel
+pyarrow
+fastparquet
