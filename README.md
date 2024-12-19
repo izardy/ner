@@ -58,6 +58,31 @@ for ent in doc.ents:
 ```
 labels=["GPE","PERSON","ORG","FAC","MONEY","NORP","LOC","PRODUCT","EVENT","PERCENT","WORK_OF_ART","TIME","ORDINAL","CARDINAL","QUANTITY","LAW"]
 ```
+- Using Jupyter notebook, paste the following code for data annotation
+```
+import spacy
+from spacy import displacy
+import spacy_annotator as spa
+import pandas as pd
+import numpy as np
+
+nlp = spacy.blank("en") # load a new spacy model for first time 
+# nlp = spacy.load("output/model-best") # load custom model after first time train / or if available
+
+# prepare train data
+import spacy_annotator as spa
+
+train_data=pd.DataFrame({
+    "text":pd.read_parquet('./your/data/path').loc[i:j]['column_to_retrieve_the_entities'].tolist()}) # i, j represent integer to chunk your data
+
+annotator=spa.Annotator(labels=["GPE","PERSON","ORG","FAC","MONEY","NORP","LOC","PRODUCT","EVENT","PERCENT","WORK_OF_ART","TIME","ORDINAL","CARDINAL","QUANTITY","LAW"],model=nlp) #annotate train data
+
+df_labels=annotator.annotate(df=train_data,col_text="text",shuffle=False)
+
+spacy_annotations = annotator.to_spacy(df_labels,"./train/train_i_j.spacy") # "train" is the folder where all labelled data portion save
+
+```
+
 ### spaCY Training Configuration
 - As per spaCY documentations
 > Config files used for training should always be complete and not contain any hidden defaults or missing values, so this command helps you create your final training config. In order to find the available settings and defaults, all functions referenced in the config will be created, and their signatures are used to find the defaults.
@@ -244,7 +269,8 @@ python -m spacy init fill-config base_config.cfg config.cfg
 ### spaCY Training init
 - Using the both labelled data (train folder) and cofig.cfg file, ner model training initiated as code below
 ```
-python -m spacy train config.cfg --output ./output --paths.train ./train.spacy --paths.dev ./dev.spacy
+python -m spacy train config.cfg --output ./output --paths.train ./train --paths.dev ./dev --gpu-id 0 # if using gpu to train
+# python -m spacy train config.cfg --output ./output --paths.train ./train --paths.dev ./dev # if using cpu to train
 ```
 
 ## Environment Setup
