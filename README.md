@@ -59,8 +59,183 @@ for ent in doc.ents:
 labels=["GPE","PERSON","ORG","FAC","MONEY","NORP","LOC","PRODUCT","EVENT","PERCENT","WORK_OF_ART","TIME","ORDINAL","CARDINAL","QUANTITY","LAW"]
 ```
 ### spaCY Training Configuration
+- As per spaCY documentations
+> Config files used for training should always be complete and not contain any hidden defaults or missing values, so this command helps you create your final training config. In order to find the available settings and defaults, all functions referenced in the config will be created, and their signatures are used to find the defaults.
+>
+- base_config.cfg (cpu)
+```
+# This is an auto-generated partial config. To use it with 'spacy train'
+# you can run spacy init fill-config to auto-fill all default settings:
+# python -m spacy init fill-config ./base_config.cfg ./config.cfg
+[paths]
+train = null
+dev = null
+vectors = null
+[system]
+gpu_allocator = null
 
+[nlp]
+lang = "en"
+pipeline = ["tok2vec","ner"]
+batch_size = 1000
 
+[components]
+
+[components.tok2vec]
+factory = "tok2vec"
+
+[components.tok2vec.model]
+@architectures = "spacy.Tok2Vec.v2"
+
+[components.tok2vec.model.embed]
+@architectures = "spacy.MultiHashEmbed.v2"
+width = ${components.tok2vec.model.encode.width}
+attrs = ["NORM", "PREFIX", "SUFFIX", "SHAPE"]
+rows = [5000, 1000, 2500, 2500]
+include_static_vectors = false
+
+[components.tok2vec.model.encode]
+@architectures = "spacy.MaxoutWindowEncoder.v2"
+width = 96
+depth = 4
+window_size = 1
+maxout_pieces = 3
+
+[components.ner]
+factory = "ner"
+
+[components.ner.model]
+@architectures = "spacy.TransitionBasedParser.v2"
+state_type = "ner"
+extra_state_tokens = false
+hidden_width = 64
+maxout_pieces = 2
+use_upper = true
+nO = null
+
+[components.ner.model.tok2vec]
+@architectures = "spacy.Tok2VecListener.v1"
+width = ${components.tok2vec.model.encode.width}
+
+[corpora]
+
+[corpora.train]
+@readers = "spacy.Corpus.v1"
+path = ${paths.train}
+max_length = 0
+
+[corpora.dev]
+@readers = "spacy.Corpus.v1"
+path = ${paths.dev}
+max_length = 0
+
+[training]
+dev_corpus = "corpora.dev"
+train_corpus = "corpora.train"
+
+[training.optimizer]
+@optimizers = "Adam.v1"
+
+[training.batcher]
+@batchers = "spacy.batch_by_words.v1"
+discard_oversize = false
+tolerance = 0.2
+
+[training.batcher.size]
+@schedules = "compounding.v1"
+start = 100
+stop = 1000
+compound = 1.001
+
+[initialize]
+vectors = ${paths.vectors}
+```
+- base_config.cfg (gpu)
+```
+# This is an auto-generated partial config. To use it with 'spacy train'
+# you can run spacy init fill-config to auto-fill all default settings:
+# python -m spacy init fill-config ./base_config.cfg ./config.cfg
+[paths]
+train = null
+dev = null
+vectors = null
+[system]
+gpu_allocator = "pytorch"
+
+[nlp]
+lang = "en"
+pipeline = ["transformer","ner"]
+batch_size = 128
+
+[components]
+
+[components.transformer]
+factory = "transformer"
+
+[components.transformer.model]
+@architectures = "spacy-transformers.TransformerModel.v3"
+name = "roberta-base"
+tokenizer_config = {"use_fast": true}
+
+[components.transformer.model.get_spans]
+@span_getters = "spacy-transformers.strided_spans.v1"
+window = 128
+stride = 96
+
+[components.ner]
+factory = "ner"
+
+[components.ner.model]
+@architectures = "spacy.TransitionBasedParser.v2"
+state_type = "ner"
+extra_state_tokens = false
+hidden_width = 64
+maxout_pieces = 2
+use_upper = false
+nO = null
+
+[components.ner.model.tok2vec]
+@architectures = "spacy-transformers.TransformerListener.v1"
+grad_factor = 1.0
+
+[components.ner.model.tok2vec.pooling]
+@layers = "reduce_mean.v1"
+
+[corpora]
+
+[corpora.train]
+@readers = "spacy.Corpus.v1"
+path = ${paths.train}
+max_length = 0
+
+[corpora.dev]
+@readers = "spacy.Corpus.v1"
+path = ${paths.dev}
+max_length = 0
+
+[training]
+accumulate_gradient = 3
+dev_corpus = "corpora.dev"
+train_corpus = "corpora.train"
+
+[training.optimizer]
+@optimizers = "Adam.v1"
+
+[training.optimizer.learn_rate]
+@schedules = "warmup_linear.v1"
+warmup_steps = 250
+total_steps = 20000
+initial_rate = 5e-5
+
+[training.batcher]
+@batchers = "spacy.batch_by_padded.v1"
+discard_oversize = true
+size = 2000
+buffer = 256
+
+[initialize]
+vectors = ${paths.vectors}
+```
 ## Environment Setup
 ## Miniconda Installation
 ### Create Environment
