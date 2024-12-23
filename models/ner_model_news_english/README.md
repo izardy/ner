@@ -1,3 +1,5 @@
+## Model Overview
+
 ### Result
 
 ```
@@ -26,3 +28,76 @@ E    #       LOSS TRANS...  LOSS NER  ENTS_F  ENTS_P  ENTS_R  SCORE
  22   13600         236.77    340.90   97.73   97.00   98.47    0.98
  22   13800         221.60    333.28   98.20   97.99   98.42    0.98
  ```
+
+#### spaCY Training pipeline
+- Descirption of training pipelne output for spaCy NER trainin
+  - ```E``` - Epoch number: Shows which training epoch/iteration you're on
+  - ```#``` - Step/batch number
+  - ```LOSS TRANS``` - Transition Loss: Loss value for the transition component of the model, which helos in learning valid entity transitions
+  - ```LOSS NER``` - Named Entity Recognition Loss: The loss value specifically for the NER component, indicating how well the model is learning to identify entities
+  - ```ENTS_F``` -  Entities F-Score: The harmonic mean of precision and recall (F1 score) for entity recognition. Range is 0-100, higher is better
+  - ```ENTS_P``` -  Entities Precision: The percentage of entities predicted by the model that are correct. Range is 0-100
+    > <sup> Precision = (True Positives) / (True Positives + False Positives)
+  - ```ENTS_R``` - Entities Recall: The percentage of actual entities that were correctly identified by the model. Range is 0-100
+    > <sup> Recall = (True Positives) / (True Positives + False Negatives)
+  - ```SCORE``` - Overall Score: The main metric used to evaluate model performance, typically the same as ENTS_F
+
+#### Model Evaluation
+- A good model should show:
+  - Decreasing loss values over time
+  - Increasing F-score, precision, and recall
+  - Balanced precision and recall scores
+
+## Model to Huggingface Repository
+### Step by step Process:
+- Navigate to model's "model-best" directory and edit the meta.json file to set a unique name for the model. For your news English NER model, you might want to name it something like:
+```
+{
+    "name": "en_news_ner_pipeline"
+}
+```
+- Create a wheel file using spaCy's package command:
+```
+!python -m spacy package "model-best" "./ner-output" --build wheel
+```
+- Login to Hugging Face Hub. You'll need to have your Hugging Face access token ready:
+```
+from huggingface_hub import login
+login()  # This will prompt for your access token
+```
+- Create a model card (README.md) with information about the model:
+```
+model_card = """
+---
+language: en
+license: mit
+tags:
+- spacy
+- ner
+- named-entity-recognition
+- news
+---
+
+# English News NER Model
+
+## Model Description
+This is a spaCy NER model trained on English news data to identify named entities.
+
+## Training Data
+The model was trained on annotated news articles.
+
+## Entity Labels
+[List your entity labels here]
+
+## Usage
+```python
+import spacy
+nlp = spacy.load("your-username/your-model-name")
+doc = nlp("Your text here")
+for ent in doc.ents:
+    print(ent.text, ent.label_)
+"""
+with open("README.md", "w") as f:
+f.write(model_card)
+
+```
