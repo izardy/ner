@@ -32,7 +32,8 @@ doc = nlp("Apple is looking at buying U.K. startup for $1 billion")
 for ent in doc.ents:
     print(ent.text, ent.label_)
 ```
-### spaCY Training Data Preparation
+## spaCY Training Data Preparation
+### Data Annotation
 - spaCY training data must be labelled . The term label here referring to the entity we wish to extract from the texts. The origin of this texts could be from many sources i.e. news articles, transcripts, logs etc whereby the compilations of these texts come in various format such as parquet, json or csv. These text could contains numbers as entities depands on the user's requirement. Example of entities includes:-
 
 > - <sup>PERSON:      People, including fictional.</sup>
@@ -82,7 +83,7 @@ df_labels=annotator.annotate(df=train_data,col_text="text",shuffle=False)
 spacy_annotations = annotator.to_spacy(df_labels,"./train/train_i_j.spacy") # "train" is the folder where all labelled data portion save
 
 ```
-
+## NER Model Training
 ### spaCY Training Configuration
 - As per spaCY documentations
 > Config files used for training should always be complete and not contain any hidden defaults or missing values, so this command helps you create your final training config. In order to find the available settings and defaults, all functions referenced in the config will be created, and their signatures are used to find the defaults.
@@ -298,6 +299,66 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
   - ```ENTS_R``` - Entities Recall: The percentage of actual entities that were correctly identified by the model. Range is 0-100
     > <sup> Recall = (True Positives) / (True Positives + False Negatives)
   - ```SCORE``` - Overall Score: The main metric used to evaluate model performance, typically the same as ENTS_F
+
+#### Model Evaluation
+- A good model should show:
+  - Decreasing loss values over time
+  - Increasing F-score, precision, and recall
+  - Balanced precision and recall scores
+
+## Model to Huggingface Repository
+### Step by step Process:
+- Navigate to model's "model-best" directory and edit the meta.json file to set a unique name for the model. For your news English NER model, you might want to name it something like:
+```
+{
+    "name": "en_news_ner_pipeline"
+}
+```
+- Create a wheel file using spaCy's package command:
+```
+!python -m spacy package "model-best" "./ner-output" --build wheel
+```
+- Login to Hugging Face Hub. You'll need to have your Hugging Face access token ready:
+```
+from huggingface_hub import login
+login()  # This will prompt for your access token
+```
+- Create a model card (README.md) with information about the model:
+```
+model_card = """
+---
+language: en
+license: mit
+tags:
+- spacy
+- ner
+- named-entity-recognition
+- news
+---
+
+# English News NER Model
+
+## Model Description
+This is a spaCy NER model trained on English news data to identify named entities.
+
+## Training Data
+The model was trained on annotated news articles.
+
+## Entity Labels
+[List your entity labels here]
+
+## Usage
+```python
+import spacy
+nlp = spacy.load("your-username/your-model-name")
+doc = nlp("Your text here")
+for ent in doc.ents:
+    print(ent.text, ent.label_)
+
+with open("README.md", "w") as f:
+f.write(model_card)
+
+```
 
 ## Environment Setup
 ## Pytorch Installation
