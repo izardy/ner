@@ -368,6 +368,44 @@ f.write(model_card)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install miniforge
 ```
+#### Windows
+```
+# Download the latest Miniconda installer
+Invoke-WebRequest -Uri "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe" -OutFile "Miniconda3-latest-Windows-x86_64.exe"
+
+# Silent installation with recommended options
+Start-Process -Wait -FilePath ".\Miniconda3-latest-Windows-x86_64.exe" -ArgumentList "/S /RegisterPython=1 /AddToPath=1"
+
+# Initialize conda for PowerShell
+conda init powershell
+
+# Close and reopen PowerShell for changes to take effect
+```
+#### Linux
+```
+# Download the latest Miniconda installer
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+
+# Create directory for miniconda
+mkdir -p ~/miniconda3
+
+# Run the installer
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+
+# Remove the installer
+rm -rf ~/miniconda3/miniconda.sh
+
+# Initialize conda for your shell (both bash and zsh)
+~/miniconda3/bin/conda init bash
+~/miniconda3/bin/conda init zsh
+
+# For bash
+source ~/.bashrc
+
+# For zsh
+source ~/.zshrc
+```
+
 ### Miniconda Installation
 #### Create Environment
 ##### Python 3.10
