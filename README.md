@@ -273,8 +273,8 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
 # python -m spacy train config.cfg --output ./output --paths.train ./train --paths.dev ./dev # if using cpu to train
 ```
 
-> Command Breakdown
-> python -m spacy train: This runs the spacy module's train command, which is used to train a spaCy model.
+#### Command Breakdown
+- ```python -m spacy train```: This runs the spacy module's train command, which is used to train a spaCy model.
 
 > config.cfg: This is the configuration file that contains all the settings and parameters for training the model. It includes details like the pipeline components, training data paths, and hyperparameters.
 
