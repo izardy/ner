@@ -287,7 +287,13 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
 - ```--gpu-id 0```: This specifies the GPU to use for training. 0 indicates the first GPU. If you want to use the CPU instead, you can omit this option.
 
 
-
+#### spaCY Training pipeline
+- Descirption of training pipelne output for spaCy NER trainin
+  - ```E``` - Epoch number: Shows which training epoch/iteration you're on
+  - ```LOSS TRANS``` - Transition Loss: Loss value for the transition component of the model, which helos in learning valid entity transitions
+  - ```LOSS NER``` - Named Entity Recognition Loss: The loss value specifically for the NER component, indicating how well the model is learning to identify entities
+  - ```ENTS_F``` -  Entities F-Score: The harmonic mean of precision and recall (F1 score) for entity recognition. Range is 0-100, higher is better
+  - ```ENTS_P``` -  Entities Precision: The percentage of entities predicted by the model that are correct. Range is 0-100
 
 
 
