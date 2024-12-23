@@ -361,15 +361,15 @@ f.write(model_card)
 ```
 
 ## Environment Setup
-## Pytorch Installation
-### MacOS (Apple Silicon)
+### Pytorch Installation
+#### MacOS (Apple Silicon)
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install miniforge
 ```
-## Miniconda Installation
-### Create Environment
-#### Python 3.10
+### Miniconda Installation
+#### Create Environment
+##### Python 3.10
 - Create environment with Python 3.10:
   - `conda create --name myenv python=3.10`
   - `conda activate myenv`
