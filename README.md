@@ -276,15 +276,15 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
 #### Command Breakdown
 - ```python -m spacy train```: This runs the spacy module's train command, which is used to train a spaCy model.
 
-> config.cfg: This is the configuration file that contains all the settings and parameters for training the model. It includes details like the pipeline components, training data paths, and hyperparameters.
+- ```config.cfg```: This is the configuration file that contains all the settings and parameters for training the model. It includes details like the pipeline components, training data paths, and hyperparameters.
 
-> --output ./output: This specifies the directory where the trained model and other output files will be saved. In this case, it's the ./output directory.
+- ```--output ./output```: This specifies the directory where the trained model and other output files will be saved. In this case, it's the ./output directory.
 
-> --paths.train ./train: This sets the path to the training data. The training data is located in the ./train directory.
+- ```--paths.train ./train```: This sets the path to the training data. The training data is located in the ./train directory.
 
-> --paths.dev ./dev: This sets the path to the development (validation) data. The development data is located in the ./dev directory.
+- ```--paths.dev ./dev```: This sets the path to the development (validation) data. The development data is located in the ./dev directory.
 
-> --gpu-id 0: This specifies the GPU to use for training. 0 indicates the first GPU. If you want to use the CPU instead, you can omit this option.
+- ```--gpu-id 0```: This specifies the GPU to use for training. 0 indicates the first GPU. If you want to use the CPU instead, you can omit this option.
 
 
 
