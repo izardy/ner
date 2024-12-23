@@ -354,7 +354,7 @@ nlp = spacy.load("your-username/your-model-name")
 doc = nlp("Your text here")
 for ent in doc.ents:
     print(ent.text, ent.label_)
-
+"""
 with open("README.md", "w") as f:
 f.write(model_card)
 
