@@ -294,9 +294,9 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
   - ```LOSS NER``` - Named Entity Recognition Loss: The loss value specifically for the NER component, indicating how well the model is learning to identify entities
   - ```ENTS_F``` -  Entities F-Score: The harmonic mean of precision and recall (F1 score) for entity recognition. Range is 0-100, higher is better
   - ```ENTS_P``` -  Entities Precision: The percentage of entities predicted by the model that are correct. Range is 0-100
-    > Precision = (True Positives) / (True Positives + False Positives)
+    > <sup> Precision = (True Positives) / (True Positives + False Positives)
   - ```ENTS_R``` - Entities Recall: The percentage of actual entities that were correctly identified by the model. Range is 0-100
-    > Recall = (True Positives) / (True Positives + False Negatives)
+    > <sup> Recall = (True Positives) / (True Positives + False Negatives)
   - ```SCORE``` - Overall Score: The main metric used to evaluate model performance, typically the same as ENTS_F
 
 ## Environment Setup
