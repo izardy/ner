@@ -291,6 +291,7 @@ python -m spacy train config.cfg --output ./output --paths.train ./train --paths
 #### spaCY Training pipeline
 - Descirption of training pipelne output for spaCy NER trainin
   - ```E``` - Epoch number: Shows which training epoch/iteration you're on
+  - ```#``` - Step/batch number
   - ```LOSS TRANS``` - Transition Loss: Loss value for the transition component of the model, which helos in learning valid entity transitions
   - ```LOSS NER``` - Named Entity Recognition Loss: The loss value specifically for the NER component, indicating how well the model is learning to identify entities
   - ```ENTS_F``` -  Entities F-Score: The harmonic mean of precision and recall (F1 score) for entity recognition. Range is 0-100, higher is better
