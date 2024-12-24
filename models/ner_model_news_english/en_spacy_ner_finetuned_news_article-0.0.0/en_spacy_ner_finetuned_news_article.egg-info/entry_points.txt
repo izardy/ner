@@ -1,0 +1,2 @@
+[spacy_models]
+en_spacy_ner_finetuned_news_article = en_spacy_ner_finetuned_news_article
