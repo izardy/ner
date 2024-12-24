@@ -381,10 +381,10 @@ create_repo(
 #upload to existing huggingface model
 from huggingface_hub import upload_folder
 
-# Upload the entire model directory
+# Upload the entire model directory ,considering code run within the same folder where folder_path contain
 upload_folder(
-    folder_path="en_spacy_ner_finetuned_news_article-0.0.0",
-    repo_id="izardy/en_spacy_ner_finetuned_news_article",
+    folder_path="wheel folder",
+    repo_id="huggingface_id/repo_name",
     repo_type="model"
 )
 ```
