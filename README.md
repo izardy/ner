@@ -360,6 +360,34 @@ with open("README.md", "w") as f:
 f.write(model_card)
 
 ```
+- Login into huggingface hub
+```
+from huggingface_hub import login
+login()  # This will prompt for your access token
+```
+- Crate repository in huggingface where the model to be uploaded
+```
+# for huggingface new repo
+from huggingface_hub import create_repo
+
+create_repo(
+    repo_id="your-username/your-model-name",
+    repo_type="model",
+    private=False  # Set to True if you want a private repository
+)
+```
+- Push the model to the repo
+```
+#upload to existing huggingface model
+from huggingface_hub import upload_folder
+
+# Upload the entire model directory
+upload_folder(
+    folder_path="en_spacy_ner_finetuned_news_article-0.0.0",
+    repo_id="izardy/en_spacy_ner_finetuned_news_article",
+    repo_type="model"
+)
+```
 
 ## Environment Setup
 ### Pytorch Installation
