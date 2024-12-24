@@ -128,3 +128,4 @@ upload_folder(
     repo_type="model"
 )
 ```
+- Check the uploaded model at https://huggingface.co/izardy/en_spacy_ner_finetuned_news_article
